@@ -27,7 +27,7 @@ connection.query("SELECT * FROM products", function(err, res) {  //MYSQL workben
   startBuying()
 })  
 
-var startBuying = function(){
+var startBuying = function(){ //function that starts the buying process using inquire
   inquirer.prompt([
   {
     type: "input",
@@ -36,7 +36,7 @@ var startBuying = function(){
   },
   
 ]).then(function (answer) {
-  console.log(answer.item_id);
+  console.log(answer.item_id); 
   id = answer.item_id;
   if(id){
     productByID();
@@ -48,21 +48,20 @@ var startBuying = function(){
 });
 
 
-var howManyUnits = function(){
+var howManyUnits = function(){ //inquirer function that asks how many units you would like to buy
 inquirer.prompt([ 
     {
     type: "input",
     message: "How many units?",
     name: "Units"
     }   
-]).then(function(answer){
-  units = parseInt(answer.Units);
+]).then(function(answer){ 
+  units = parseInt(answer.Units); 
   stockChecker();
 });
 }
 
-// SHOWS ITEM AND QUANTITY BY ID
-var productByID = function(){
+var productByID = function(){ // SHOWS ITEM AND QUANTITY BY ID
 connection.query('SELECT*FROM Products WHERE item_id=?',id, function(err,res){
     console.log('product_name: '+res[0].product_name +' '+' Quantity: '+res[0].stock_quantity);
     stock_quantity = res[0].stock_quantity;
@@ -71,17 +70,17 @@ connection.query('SELECT*FROM Products WHERE item_id=?',id, function(err,res){
   })
 };
 
-// UPDATES STOCK
-function stockChecker(){
+
+function stockChecker(){ //function used to check the rest of units left in stock
   if(units>stock_quantity){
-    console.log('Not enough stock!!!');
+    console.log('Not enoughs left in stock!');
   }else{
-    purchaseTotal = units*price;
+    purchaseTotal = units*price; //multiplies the amount of unts by the price of each unit
     totalSales += purchaseTotal;
     stock_quantity-=units;
     connection.query("UPDATE products SET ? WHERE ?", [{
       stock_quantity: stock_quantity,
-      TotalSales: totalSales
+      TotalSales: totalSales 
     }, {
       item_id: id
   }], function(err, res) {
