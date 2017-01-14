@@ -87,9 +87,9 @@ function stockChecker(){
   }], function(err, res) {
     console.log('You bought ' + units + ' unit/s');
     console.log(stock_quantity + ' units left')
-    start()
-  });   
+
+  })  
   }
-};
 }
 
+}
