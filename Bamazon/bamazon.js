@@ -48,3 +48,26 @@ var startBuying = function(){
 });
 
 
+var howManyUnits = function(){
+inquirer.prompt([ 
+    {
+    type: "input",
+    message: "How many units?",
+    name: "Units"
+    }   
+]).then(function(answer){
+  units = parseInt(answer.Units);
+  stockChecker();
+});
+}
+
+// SHOWS ITEM AND QUANTITY BY ID
+var productByID = function(){
+connection.query('SELECT*FROM Products WHERE item_id=?',id, function(err,res){
+    console.log('product_name: '+res[0].product_name +' '+' Quantity: '+res[0].stock_quantity);
+    stock_quantity = res[0].stock_quantity;
+    totalSales = res[0].TotalSales;
+    price = res[0].Price;
+  })
+};
+
