@@ -71,3 +71,25 @@ connection.query('SELECT*FROM Products WHERE item_id=?',id, function(err,res){
   })
 };
 
+// UPDATES STOCK
+function stockChecker(){
+  if(units>stock_quantity){
+    console.log('Not enough stock!!!');
+  }else{
+    purchaseTotal = units*price;
+    totalSales += purchaseTotal;
+    stock_quantity-=units;
+    connection.query("UPDATE products SET ? WHERE ?", [{
+      stock_quantity: stock_quantity,
+      TotalSales: totalSales
+    }, {
+      item_id: id
+  }], function(err, res) {
+    console.log('You bought ' + units + ' unit/s');
+    console.log(stock_quantity + ' units left')
+    start()
+  });   
+  }
+};
+}
+
